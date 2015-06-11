@@ -1,0 +1,98 @@
+<div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel">
+                                <header class="panel-heading">
+                                    Users Listing
+
+                                </header>
+                                <!-- <div class="box-header"> -->
+                                    <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
+
+                                <!-- </div> -->
+                                <div class="panel-body table-responsive">
+                                    <div class="box-tools m-b-15">
+                                        <div class="input-group">
+                                            <input ng-model="search" type="text" placeholder="Search" style="width: 150px;" class="form-control input-sm pull-right" name="table_search">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-hover">
+                                        <tbody><tr>
+                                            <th>Name</th>
+                                            <th>User name</th>
+                                            <th>Age</th>
+                                            <th>Qualification</th>
+                                            <th>Created</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        <tr ng-repeat = 'user in data | filter:search'>
+                                            <td>{{ user.name | uppercase }}</td>
+                                            <td>{{ user.uname }}</td>
+                                            <td>{{ user.age }}</td>
+                                            <td>{{ user.qualification | uppercase }}</td>
+                                            <td>{{ user.created }}</td>
+                                            <td>
+                                                <button class="btn" ng-click="editUser(user._id)"><span class="label label-success">Edit</span></button>
+                                                <button class="btn" ng-click="deleteUser(user._id)"><span class="label label-success">Delete</span></button>
+                                            </td>
+                                            
+                                        </tr>
+                                    </tbody></table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                            
+                            
+                            <button class="btn btn-success" ng-click="editUser('new')">
+                            <span class="glyphicon glyphicon-user"></span> Create New User
+                          </button>
+                            
+                            <h3 ng-show="edit">Create New User:</h3>
+                            <h3 ng-hide="edit">Edit User:</h3>
+                            
+                            <form class="form-horizontal" ng-submit = "saveUser(id)" method="POST">
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">Name:</label>
+                              <div class="col-sm-10">
+                                <input type="text" ng-model="name" placeholder="Name">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">User Name:</label>
+                              <div class="col-sm-10">
+                                <input type="text" ng-model="uname" placeholder="User Name">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">Age:</label>
+                              <div class="col-sm-10">
+                                <input type="text" ng-model="age" placeholder="Age">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">Qualification:</label>
+                              <div class="col-sm-10">
+                                <input type="text" ng-model="qualification" placeholder="Qualification">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">Password:</label>
+                              <div class="col-sm-10">
+                                <input type="password" ng-model="password" placeholder="Password">
+                              </div>
+                            </div>
+                            <hr>
+                            <button type = "submit" class="btn btn-success" ng-disabled = "disable">
+                              <span class="glyphicon glyphicon-save"></span> Save Changes
+                            </button>
+                            </form>
+                            
+                            
+                            
+                            </div>
+
+                            
+                            
+                        </div>
+                    </div>

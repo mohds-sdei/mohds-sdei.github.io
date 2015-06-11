@@ -1,0 +1,103 @@
+var express = require('express');
+var fs = require('fs');
+var storyFile = require('../public/story.txt');
+var util = require('util');
+
+
+/*
+    function : index
+    desc : used for listing stories on homepage
+    return : stories in JSON form
+*/
+
+var index = function(req,res,next) {
+    var fileData = '';
+    var datafile = fs.readFileSync('story.txt','utf-8');
+    datafile = JSON.parse(datafile);
+    return datafile;
+};
+
+exports.index = index;
+
+
+
+/*
+    function : upload
+    desc : uploading stories and writing stories in file
+    return : string done
+*/
+
+var upload = function(req,res,next) {
+
+
+
+    var headline = req.body.headline;
+    var desc = req.body.description;
+    var photo = req.files.photo.name;
+    
+    // validations
+    //req.assert('headline', 'Invalid Headline').notEmpty().isInt(); 
+    //req.assert('desc', 'Invalid Description').isAlpha(); 
+    //req.assert('photo', 'Invalid Photo').isInt(); 
+    
+    
+    
+    var errors = req.validationErrors(true);
+    if (errors) {
+      console.log('There have been validation errors: ' + util.inspect(errors), 400);
+    return errors;
+    }
+    
+    
+    var data1 = {'Headline' : headline,'Description' : desc,'Photo' : photo};
+    var userString = data1;
+    fs.open('story.txt', 'r+', function(err, fd) {
+         if (err) {
+             return console.error(err);
+         }
+        console.log("File opened successfully!");
+        var filedata ='';
+        fs.readFile('story.txt',function(err,data) {
+          if (err) {
+             return console.error(err);
+          }
+          fileData = JSON.parse(data);
+          fileData.stories.push(userString);
+          fs.write(fd, JSON.stringify(fileData), null, 'utf8',  function(err) {
+             if (err) {
+                 return console.error(err);
+             }
+             console.log("Data written successfully!");
+          });
+        });
+    });
+    return 'done';
+    
+};
+exports.upload = upload;
+
+
+/*
+    function : login
+    desc : login for uploading the posts 
+    return : string done
+*/
+ var login = function(req, res, next) {
+    console.log('inside login');
+    var email = req.body.email;
+    var passwd = req.body.password;
+   
+    
+    if (email === 'mohds@smartdatainc.net' && passwd === 'shais') {
+         console.log('inside if');
+       console.log('inside Email : ' + email + ' Password : ' +passwd);
+      req.session.email = email;
+      req.session.password = passwd;
+      console.log('session Email : ' + req.session.email + ' Password : ' +req.session.password);
+      res.redirect('/upload');
+    } else {
+      res.render('login', { message: 'Invalid email and password.' });
+    }
+ };
+ exports.login = login;
+

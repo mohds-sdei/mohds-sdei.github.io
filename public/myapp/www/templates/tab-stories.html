@@ -1,0 +1,16 @@
+<ion-view view-title="Stories">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="story in stories" type="item-text-wrap" href="#/tab/stories/{{story._id}}">
+        <!--<img ng-src="../../../images/{{ story.photo }}">-->
+        <h2>{{ story.headline }}</h2>
+        <p>Story by     {{ story.story_by }}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

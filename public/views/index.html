@@ -1,0 +1,47 @@
+    <!-- Main Content -->
+
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+        
+            
+                <div class="post-preview" ng-show = 'data' ng-repeat ="story in data ">
+                    
+                    <a href="/"><span><img src='images/{{ story.photo }}' width='100px' height='100px'></span>
+                        <h2 class="post-title">
+                          {{ story.headline }}
+                        </h2>
+                        <h3 class="post-subtitle">
+                           {{ story.description }}
+                        </h3>
+                    </a>
+                    <p class="post-meta">Posted by {{ story.story_by }} on {{ story.created }} </p>
+                </div>
+                <hr>
+            
+             <div class="post-preview" ng-show ='noStory'>
+                    
+                   
+                        <h2 class="post-title">
+                        No Story
+                        </h2>
+                        <h3 class="post-subtitle">
+                           
+                        </h3>
+                    </a>
+                    
+                </div>
+          
+                <!-- Pager -->
+                <ul class="pager">
+                    <li class="next">
+                        <a href="/">Older Posts &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    
+
+  
+
+    

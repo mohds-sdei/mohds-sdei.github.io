@@ -1,0 +1,26 @@
+<ion-view view-title="Product">
+  <ion-content>
+    
+    
+    <div class="list card">
+      <div class="item item-avatar">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.detail }}</p>
+      </div>
+      <div class="item item-image">
+        <img src="http://localhost:3000/images/{{ product.photo }}">
+      </div>
+      <a class="item item-icon-left assertive" href="#" ng-click="cart.addItem(product._id,product.name, 100, 1)" ng-show = "loggedIn">
+        
+        <i class="icon ion-android-cart"></i>
+        Add to cart
+      </a>
+    
+    </div>
+    
+    
+    <!--<a title = "add to cart" href="javascript:void(0);" class="button button-light" ng-click="cart.addItem(product._id,product.name, 100, 1)" ng-show = "loggedIn">-->
+    <!--             <i class="ion-android-cart"></i>-->
+    <!--</a>-->
+  </ion-content>
+</ion-view>

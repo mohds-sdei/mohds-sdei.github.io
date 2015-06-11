@@ -1,0 +1,138 @@
+<ion-view view-title="Cart">
+  <ion-content>
+   
+<div class="row">
+  <div class="col">
+    <p class="text-info">
+
+    This is your shopping cart. Here you can edit the items, 
+    go back to the store, clear the cart, or check out.
+    </p>    
+  </div>
+</div> 
+
+
+<div class="row">
+  <div class="col col-33">Item</div>
+  <div class="col col-33">Quantity</div>
+  <div class="col col-33">Price</div>
+</div>
+
+
+<div class="row" ng-hide="cart.getTotalCount() > 0">
+  <div class="col">Your cart is empty.</div>
+</div>
+
+
+<div class="row" ng-repeat="item in cart.items | orderBy:'name'" >
+  <div class="col col-30">{{item.name}}</div>
+  <div class="col col-33">
+    <!--<div class="input-append">-->
+                        <!-- use type=tel instead of  to prevent spinners -->
+                        <input
+                            class="" maxlength="3" type="tel" 
+                            ng-model="item.quantity" 
+                            ng-change="cart.saveItems()" />
+                        <button
+                            title="Increase quantity"
+                            class="button button-positive button-small" type="button" 
+                            ng-disabled="item.quantity >= 1000"
+                            ng-click="cart.addItem(item.sku, item.name, item.price, +1)">+</button>
+                        <button
+                            title="Decrease quantity"
+                            class="button button-assertive button-small" type="button" 
+                            ng-disabled="item.quantity <= 1"
+                            ng-click="cart.addItem(item.sku, item.name, item.price, -1)">-</button>
+                      <!--</div>-->
+    
+  </div>
+  
+  <div class="col">{{item.price * item.quantity | currency}}</div>
+   <div class="col col-10">
+    <a href="" title="remove" ng-click="cart.addItem(item.sku, item.name, item.price, -10000000)" >
+    <i class="icon ion-close"></i>
+    </a>
+   </div>
+</div>
+
+
+<div class="row">
+  <div class="col">Total</div>
+  <div class="col col-33">{{cart.getTotalCount()}}</div>
+  <div class="col col-33">{{cart.getTotalPrice() | currency}}</div>
+</div>
+
+
+<div class="row">
+  <div class="col col-40">
+    <button
+        title="back to store"
+        class="button button-positive" 
+        onclick="window.location.href='/#/products'">
+        <i class="icon-chevron-left" /> back to store
+    </button>
+  </div>
+  <div class="col col-40">
+    <button
+        title="clear cart"
+        class="button button-assertive" 
+        ng-click="cart.clearItems()" 
+        ng-disabled="cart.getTotalCount() < 1" >
+        <i class="icon-trash icon-white" /> clear cart
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col col-40">
+    <button
+        class="button button-positive"
+        ng-click="cart.checkout('PayPal')"
+        ng-disabled="cart.getTotalCount() < 1">
+        <i class="icon-ok icon-white" /> check out using PayPal
+    </button>
+  </div>
+  </div>
+<div class="row">
+  <div class="col col-40">
+    <button 
+                    class="button button-positive" 
+                    ng-click="cart.checkout('Google')" 
+                    ng-disabled="cart.getTotalCount() < 1">
+                    <i class="icon-ok icon-white" /> check out using Google
+                </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <button 
+                    class="button button-positive" 
+                    ng-click="cart.checkout('Stripe')" 
+                    ng-disabled="cart.getTotalCount() < 1">
+                    <i class="icon-ok icon-white" /> check out using Stripe
+                </button>
+  </div>
+  </div>
+<div class="row">
+  <div class="col">
+    <button 
+        class="button"
+        ng-click="cart.checkout('PayPal')"
+        ng-disabled="cart.getTotalCount() < 1" >
+        <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="checkout PayPal"/>
+    </button> 
+    
+  </div>
+  
+  </div>
+</ion-content>
+</ion-view>
+<!--<div class="row">
+  <div class="col">
+    <button 
+        class="button button-positive" 
+        ng-click="cart.checkout('Google')" 
+        ng-disabled="cart.getTotalCount() < 1" >
+        <img src="https://checkout.google.com/buttons/checkout.gif?w=168&h=44&style=white&variant=text" alt="checkoutGoogle"/>
+    </button>   
+  </div>
+</div>-->

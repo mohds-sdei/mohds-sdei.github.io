@@ -1,0 +1,3 @@
+export ANDROID_HOME=/home/mohammads/Downloads/android-sdk-linux
+export PATH=$PATH:/home/mohammads/Downloads/android-sdk-linux/tools
+

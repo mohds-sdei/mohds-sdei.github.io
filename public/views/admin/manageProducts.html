@@ -1,0 +1,52 @@
+<div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel">
+                                <header class="panel-heading">
+                                    Products Listing
+
+                                </header>
+                                <!-- <div class="box-header"> -->
+                                    <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
+
+                                <!-- </div> -->
+                                <div class="panel-body table-responsive">
+                                    <div class="box-tools m-b-15">
+                                        <div class="input-group">
+                                            <input ng-model="search" type="text" placeholder="Search" style="width: 150px;" class="form-control input-sm pull-right" name="table_search">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-hover">
+                                        <tbody><tr>
+                                            <th>Product</th>
+                                            <th>Category</th>
+                                            <th>Sub-category</th>
+                                            <th>Created</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        <tr ng-repeat= "product in products">
+                                            <td>{{ product.name }}</td>
+                                            <td>{{ product.category_id.name }}</td>
+                                            <td>{{ product.category_id.subCategory }}</td>
+                                            <td>{{ product.created }}</td>
+                                            <td>{{ product.is_deleted? 'Deactive' : 'Active' }}</td>
+                                            <td><a href='#/addProducts/{{ product._id }}'>Edit</a></td>
+                                            
+                                        </tr>
+                                    </tbody></table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                            
+                            
+                           
+                            
+                          
+                        
+                            </div>
+
+                            
+                            
+                        </div>
+                    </div>

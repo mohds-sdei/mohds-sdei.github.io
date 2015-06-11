@@ -1,0 +1,22 @@
+<html>
+    <head> <title>Story Board</title></head>
+    <body>
+        <h1>Story Board</h1><br>
+        <h6><a href='/upload' title='Upload stories'>Upload</a></h6><br>
+            <% if (data.stories.length) { %>
+           <div>
+            <% data.stories.forEach(function(value) { %>
+               <div>
+                <span><img src='images/<%= value.Photo %>' width='100px' height='100px'></span>
+                 <span><%= value.Headline %>  : </span>
+                 <span><%= value.Description %></span>
+                
+               </div>
+               <br>
+               <hr>
+            <% }) %>
+            </div>
+            <% } %>
+       
+    </body>
+</html>

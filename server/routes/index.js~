@@ -1,0 +1,186 @@
+var express = require('express');
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+// Load the bcrypt module
+var bcrypt = require('bcryptjs');
+
+var router = express.Router();
+var user = require('../models/Users.js');
+
+// importing indexController
+var story = require('../controller/indexController.js');
+var userController = require('../controller/usersController.js');
+
+var isValidPassword = function(user, password){
+  return bcrypt.compareSync(password, user.password);
+}
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+ 
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+var isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/login');
+}
+
+passport.use(new LocalStrategy(
+  function(email, password, done) {
+    process.nextTick(function () {
+      user.findOne({'uname':email},
+      function(err, data) {
+        if (err) { return done(err); }
+        if (!data) { return done(null, false); }
+	console.log('Is valid password : '+isValidPassword(data.password, password));
+	if (!isValidPassword(data.password, password)){ return done(null, false); }
+        //if (data.password != password) { return done(null, false); }
+        return done(null, data);
+      });
+    });
+  }
+));
+
+
+router.use(function(req, res, next) {
+  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
+});
+
+
+var checkSession = function(req,res,next) {
+  if (!req.session.email && !req.session.password) {
+    res.redirect('/');
+  }else {
+    console.log('still session');
+    next();
+  }
+}
+
+/* GET home page with stories listed on it also performing search operation. */
+
+router.get('/',function(req,res,next) {
+  var sess_email = '';
+  story.index(req,res,next,function (err,data) {
+    
+    if (err) {
+      console.log(err);
+    }
+ 
+    var results = [];
+    var sess_email = req.session.email;
+
+    
+    //Performing search on data collected from db only if user is logged in
+    if (!req.session.email) {
+      req.query.search = '';
+    } 
+    if (req.query.search) {
+      var searchVal = req.query.search;  
+      searchVal = (searchVal.trim());  
+      if ( searchVal !== null && searchVal !== '') {
+        for (var i=0 ; i < data.length ; i++)
+        {
+          var headline = data[i].headline.match(new RegExp(searchVal, "i"));
+          var desc = data[i].description.match(new RegExp(searchVal, "i"));
+          
+          if (headline !== null && headline.index >= 0) {
+            results.push(data[i]);
+          }
+        }
+        data = results;
+      }
+    }
+    
+    
+    
+    //rendering session variable on index page
+    if (req.session.email) {
+      sess_email = req.session.email;
+    } else {
+      sess_email = '';
+    }
+       console.log('shais :'+data+ ' email : '+sess_email);
+    res.render('index',{'data' : data,'email' : sess_email});
+      
+    });
+  
+});
+
+/* Upload page for uploading stories. */
+
+router.route('/upload')
+  .get(checkSession,function(req,res,next) {
+    var sess_email = '';
+     //rendering session variable on index page
+      if (req.session.email != '') {
+        sess_email = req.session.email;
+      } else {
+        sess_email = '';
+      }
+    res.render('upload',{'email' : sess_email});
+    
+  })
+  .post(checkSession,function(req,res,next) {
+    //var errors = story.upload(req,res,next);
+    story.upload(req,res,next);
+    //if (errors) {
+    //  res.redirect('/upload');  
+    //} else {
+    //  res.redirect('/');  
+    //}
+    //res.redirect('/');  
+  });
+
+/* Login page for uploading stories. */
+
+router.route('/login')
+.get(function(req, res, next) {
+
+  console.log('inside '+req.session.user);
+  
+  if (req.session.email && req.session.password) {
+    res.redirect('/upload');
+  }
+  res.render('login',{'mesage' : 'Welcome'});
+})
+.post (passport.authenticate('local', {
+    successRedirect: '/upload',
+    failureRedirect: '/login'
+  }));
+  
+/* Logout call for destroying session. */  
+router.get('/logout',function (req, res, next) {
+  req.session = null;
+  res.redirect('/');
+  
+});
+  
+  
+/* Signup page for users. */
+
+router.route('/signup')
+.get(function(req, res, next) {
+  
+    console.log('inside '+req.session.user);
+  
+  if (req.session.email && req.session.password) {
+    res.redirect('/upload');
+  }
+  res.render('signup',{'mesage' : 'Welcome'});
+})
+.post (function (req, res, next) {
+  userController.signup(req,res,next);
+});
+  
+  
+  
+  
+  
+module.exports = router;

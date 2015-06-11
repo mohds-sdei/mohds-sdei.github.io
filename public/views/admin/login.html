@@ -1,0 +1,34 @@
+<div class="row">
+                      
+                      <div class="col-lg-6">
+                          <section class="panel">
+                              <header class="panel-heading">
+                                  Login 
+                              </header>
+                              <div class="panel-body">
+                                <p class="help-block">{{ errmsg }}</p>
+                                  <form role="form" class="form-horizontal" ng-submit='loginSubmit(data)'>
+                                      <div class="form-group">
+                                          <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">User Name</label>
+                                          <div class="col-lg-10">
+                                              <input ng-model = 'data.username' type="text" placeholder="User name" id="inputEmail1" class="form-control">
+                                              
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-lg-2 col-sm-2 control-label" for="inputPassword1">Password</label>
+                                          <div class="col-lg-10">
+                                              <input ng-model = 'data.password' type="password" placeholder="Password" id="inputPassword1" class="form-control">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <div class="col-lg-offset-2 col-lg-10">
+                                              <button class="btn btn-danger" type="submit">Sign in</button>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          </section>
+                          
+                      </div>
+                    </div>

@@ -1,0 +1,113 @@
+<div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel">
+                                <header class="panel-heading">
+                                    Story Listing
+
+                                </header>
+                                <!-- <div class="box-header"> -->
+                                    <!-- <h3 class="box-title">Responsive Hover Table</h3> -->
+
+                                <!-- </div> -->
+                                <div class="panel-body table-responsive">
+                                    <div class="box-tools m-b-15">
+                                        <div class="input-group">
+                                            <input ng-model="search" type="text" placeholder="Search" style="width: 150px;" class="form-control input-sm pull-right" name="table_search">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-hover">
+                                        <tbody><tr>
+                                            <th>Headline</th>
+                                            <th>Description</th>
+                                            <th>Photo</th>
+                                            <th>Story By</th>
+                                            <th>Created</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        <tr ng-repeat = 'story in data | filter:search'>
+                                            <td>{{ story.headline | uppercase }}</td>
+                                            <td>{{ story.description }}</td>
+                                            <td>{{ story.photo }}</td>
+                                            <td>{{ story.story_by | uppercase }}</td>
+                                            <td>{{ story.created }}</td>
+                                            <td>
+                                                <button class="btn" ng-click="editStory(story._id)"><span class="label label-success">Edit</span></button>
+                                                <button class="btn" ng-click="deleteStory(story._id)"><span class="label label-success">Delete</span></button>
+                                            </td>
+                                            
+                                        </tr>
+                                    </tbody></table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                            
+                            
+                            <button class="btn btn-success" ng-click="editStory('new')">
+                            <span class="glyphicon glyphicon-user"></span> Create New Story
+                          </button>
+                            
+                            <h3 ng-show="edit">Create New Story:</h3>
+                            <h3 ng-hide="edit">Edit Story:</h3>
+                            
+                            <form class="form-horizontal" ng-submit = "saveStory(id)" method="POST">
+                                                
+                        
+                        <div class="form-group">
+                              <label class="col-sm-2 control-label">Select User:</label>
+                              <div class="col-sm-10">
+                                <select ng-model="user_id">
+                        <option value="">---select---</option>
+                        <option ng-repeat="user in userData" value = "{{ user._id }}" ng-selected="user._id == user_id"> {{ user.name }} </option>
+                                </select>
+                                
+                              </div>
+                            </div>         
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">Headline:</label>
+                              <div class="col-sm-10">
+                                <input type="text" ng-model="headline" placeholder="Headline">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">Description:</label>
+                              <div class="col-sm-10">
+                                <input type="text" ng-model="description" placeholder="Description">
+                              </div>
+                            </div>
+                            
+                            <div class="form-group" ng-show = 'photo'>
+                              <label class="col-sm-2 control-label">Old photo : </label>
+                              <div class="col-sm-10">
+                                <img src='../images/{{ photo }}'>
+                              </div>
+                            </div>
+                            
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">Photo:</label>
+                              <div class="col-sm-10">
+                                <input ngf-select type="file" ng-model="newphoto" placeholder="Photo">
+                              </div>
+                            </div>
+                            
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">Story By:</label>
+                              <div class="col-sm-10">
+                                <input type="text" ng-model="story_by" placeholder="Story By">
+                              </div>
+                            </div>
+                            <hr>
+                            <button type = "submit" class="btn btn-success" ng-disabled = "disable">
+                              <span class="glyphicon glyphicon-save"></span> Save Changes
+                            </button>
+                            </form>
+                            
+                            
+                            
+                            </div>
+
+                            
+                            
+                        </div>
+                    </div>
